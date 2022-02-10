@@ -1,6 +1,8 @@
 import torch
 import numpy as np
 
+torch.manual_seed(42)
+
 # 最简单的方式来描述线性回归
 # 假设权重参数和偏置参数我们都已经知道了
 # Input (temp, rainfall, humidity)
