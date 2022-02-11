@@ -47,10 +47,14 @@ print('-'*40)
 # 计算损失函数时，开始反向传播
 loss.backward()
 # 计算损失函数时，w参数的梯度和b的梯度
+# 这里为了深度理解一下梯度这个概念
+# 我花了一晚上的时间，手动写了一个脚本
+# 利用微积分求导的知识，手动计算出来了权重参数第一个的梯度
 print(w)
 print(w.grad)
 print(b)
 print(b.grad)
+print('-'*40)
 
 # Adjust weights & reset gradients
 with torch.no_grad():
@@ -62,4 +66,25 @@ print(w)
 print(b)
 pred = model(inputs)
 loss = mse(pred, targets)
+print(loss)
+print('-'*40)
+
+# 多练几次，让问题收敛的更快
+for i in range(100):
+    pred = model(inputs)
+    loss = mse(pred, targets)
+    loss.backward()
+    with torch.no_grad():
+        w -= w.grad * 1e-5
+        b -= b.grad * 1e-5
+        w.grad.zero_()
+        b.grad.zero_()
+print(w)
+print(w.grad)
+print(b)
+print(b.grad)
+pred = model(inputs)
+loss = mse(pred, targets)
+print(pred)
+print(targets)
 print(loss)
