@@ -1,0 +1,6 @@
+s = input()
+print(' '*2 + s + ' '*2)
+print(' ' + s*3 + ' ')
+print(s*5)
+print(' ' + s*3 + ' ')
+print(' '*2 + s + ' '*2)
