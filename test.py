@@ -1,2 +1,5 @@
-class Solution:
-    def MySort(self , arr: List[int]) -> List[int]:
+lst = []
+lst.append(1)
+lst.append(1)
+print(lst[0])
+print(lst[1])
