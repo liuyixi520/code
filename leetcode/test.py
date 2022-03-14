@@ -1,8 +1,12 @@
 class Solution:
-    def maxSubArray(self, nums: List[int]) -> int:
-        max_sum = nums[0]
-        curr_sum = nums[0]
-        for i in range(1, len(nums)):
-            curr_sum = max(nums[i], curr_sum + nums[i])
-            max_sum = max(max_sum, curr_sum)
-        return max_sum
+    def search(self, nums: List[int], target: int) -> int:
+        left, right = 0, len(nums) - 1
+        while left <= right:
+            mid = (left + right) // 2
+            if nums[mid] == target:
+                return mid
+            elif nums[mid] < target:
+                left = mid + 1
+            else:
+                right = mid - 1
+        return -1

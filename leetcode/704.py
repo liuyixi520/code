@@ -1,6 +1,10 @@
 # 这个方法是高斯先想出来的，重点是这个数组要单调递增，不能有重复的数字
 # 记找寻的区间为[left, right]
+<<<<<<< HEAD
 
+=======
+# 还有这里大部分的代码都是copilot写出来的，我只是一个打杂的，哈哈
+>>>>>>> 304122c6bf1e098914c3c44fd3243cc932308142
 class Solution:
     def search(self, nums: List[int], target: int) -> int:
         left, right = 0, len(nums) - 1
