@@ -2,6 +2,8 @@ import torch
 
 # 演示自动求导，反向传播
 # 这是演示点乘，x是一个向量，y是一个标量
+# 为什么要把y设置为标量，因为损失函数是标量函数
+# 如果y是一个向量，那么损失函数就是向量函数，那么求导就不好求了
 x = torch.arange(4.0)
 print(x)
 x.requires_grad_(True)
