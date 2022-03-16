@@ -1,3 +1,4 @@
+# 介绍pytorch的自动求导
 import torch
 
 # 演示自动求导，反向传播
