@@ -1,4 +1,5 @@
 # 手动实现softmax回归
+from crypt import METHOD_CRYPT
 import torch
 from IPython import display
 from d2l import torch as d2l
@@ -97,24 +98,15 @@ class Accumulator:
         return self.sum / self.n
 
 # softmax回归的训练
-def train_ch3(net, train_iter, test_iter, loss, num_epochs, batch_size,
-              params=None, lr=None, trainer=None):
-    for epoch in range(num_epochs):
-        train_l_sum, train_acc_sum, n = 0.0, 0.0, 0
-        for X, y in train_iter:
-            y_hat = net(X)
-            l = loss(y_hat, y).sum()
-            # 打印出损失和正确率
-            if trainer is None:
-                l.backward()
-                d2l.sgd(params, lr, batch_size)
-            else:
-                trainer.step(batch_size)
-            y = y.argmax(dim=1)
-            train_l_sum += l.item()
-            train_acc_sum += (y_hat.argmax(dim=1) == y).sum().item()
-            n += y.shape[0]
-        test_acc = evaluate_accuracy(test_iter, net)
-        print('epoch %d, loss %.4f, train acc %.3f, test acc %.3f'
-              % (epoch + 1, train_l_sum / n, train_acc_sum / n, test_acc)) 
-train_ch3(net, train_iter, test_iter, cross_entropy, 20, batch_size)
+def train_ch3(net, train_iter, test_iter, loss, updater):
+    if isinstance(net, torch.nn.Module):
+        net.train()
+    metric = Accumulator()
+    for X, y in train_iter:
+        y_hat = net(X)
+        l = loss(y_hat, y)
+    if isinstance(updater, torch.optim.Optimizer):
+        updater.zero_grad()
+        l.backward()
+        updater.step()
+        metric.add(loss(y_hat, y).item())

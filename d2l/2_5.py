@@ -1,7 +1,6 @@
 # 手动实现一个线性回归
 
 from turtle import color
-import matplotlib
 import matplotlib.pyplot as plt
 import torch
 import random
