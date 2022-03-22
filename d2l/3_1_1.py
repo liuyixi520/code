@@ -1,23 +1,48 @@
-# 使用torch的API实现多层感知机
-from pandas import lreshape
+# 使用torch中的API实现了一个线性回归模型
+from pyexpat import features
 import torch
-from torch import nn
+import numpy as np
+from torch.utils import data
 from d2l import torch as d2l
 
-# 定义模型
-# 记样本的个数为n，那么输入就是n*28*28，先使用Flatten展平，就变成n*784
-net = nn.Sequential(nn.Flatten(), nn.Linear(784, 256), nn.ReLU(), nn.Linear(256, 10))
-# 初始化参数
-for param in net.parameters():
-    nn.init.normal_(param, mean=0, std=0.01)
-# 定义损失函数
-loss = nn.CrossEntropyLoss()
-# 定义优化器
-optimizer = torch.optim.SGD(net.parameters(), lr=0.1)
-# 开始训练
-num_epochs = 5
-batch_size, lr = 256, 0.1
+true_w = torch.tensor([[1.0], [2.0]], dtype=torch.float32)
+true_b = torch.tensor(0.5, dtype=torch.float32)
+features, labels = d2l.synthetic_data(true_w, true_b, num_examples=100)
+print(features)
+print(labels)
+print('-' * 30)
 
-# 开始训练
-train_iter, test_iter = d2l.load_data_fashion_mnist(batch_size)
-d2l.train_ch3(net, train_iter, test_iter, loss, num_epochs, optimizer)
+def load_array(data_array, batch_size, is_train=True):
+    dataset = data.TensorDataset(*data_array)
+    if is_train:
+        return data.DataLoader(dataset, batch_size, shuffle=True)
+    else:
+        return data.DataLoader(dataset, batch_size, shuffle=False)
+
+# 测试一下上面这个load_array函数
+batch_size = 10
+data_iter = load_array((features, labels), batch_size)
+next(iter(data_iter))
+
+# 定义模型
+from torch import nn
+net = nn.Sequential(nn.Linear(2, 1))
+# 初始化模型参数
+net[0].weight.data.uniform_(-0.01, 0.01)
+net[0].bias.data.fill_(0.0)
+# 定义损失函数
+loss = nn.MSELoss()
+# 定义优化算法
+optimizer = torch.optim.SGD(net.parameters(), lr=0.01)
+
+# 训练模型
+num_epochs = 10
+for epoch in range(num_epochs):
+    for X, y in data_iter:
+        l = loss(net(X), y)
+        optimizer.zero_grad()
+        l.backward()
+        optimizer.step()
+    # 训练完一次，就打印在全体数据上的损失
+    train_loss = loss(net(features), labels).item()
+    print('epoch %d, loss: %f' % (epoch + 1, train_loss))
