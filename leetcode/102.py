@@ -8,7 +8,7 @@
 #   如果这个元素的左子节点不为空，将其左子节点入队
 #   如果这个元素的右子节点不为空，将其右子节点入队
 #   将队列中的第一个元素出队
-# 目前同一层的元素还没有用括号括起来，回头再想一下
+# 不是标准的解法，没有将每层的元素分开，而是将所有的元素放在一个数组中
 
 # Definition for a binary tree node.
 # class TreeNode:
@@ -31,25 +31,12 @@ class Solution:
         queue.append(root)
         # 当队列不为空时
         while queue:
-            # 获得当前队列长度，即当前层的节点数
-            size = len(queue)
             # 如果左子树不为空，那么将左子树添加到队列中
             if queue[0].left:
                 queue.append(queue[0].left)
             # 如果右子树不为空，那么将右子树添加到队列中
             if queue[0].right:
                 queue.append(queue[0].right)
-
-            # 这是带括号分层来实现的，有点问题
-            # temp = []
-            # for i in range(size):
-            #     # 将当前的值添加到结果列表中
-            #     temp.append(queue[0].val)
-            #     # 将队列中的第一个元素删除
-            #     queue.pop(0)
-            # # 将当前层的节点添加到结果列表中
-            # res.append(temp)
-
             # 这是不带括号的分层来实现的，比较简单
             res.append(queue[0].val)
             queue.pop(0)

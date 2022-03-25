@@ -37,4 +37,5 @@ class Solution:
         if root1.val != root2.val:
             return False
         # 如果两个树的值相等，那么返回左子树和右子树是否对称
-        return is_sysm(root1.left, root2.right) and is_sysm(root1.right, root2.left)
+        return self.is_sysm(root1.left, root2.right) and self.is_sysm(root1.right, root2.left)
+        
