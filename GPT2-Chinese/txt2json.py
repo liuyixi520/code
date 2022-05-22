@@ -1,11 +1,12 @@
 import json
 
 dic = {}
-with open("train.txt", "r", encoding="utf8") as f:
+with open("./data/poetry/train.txt", "r", encoding="utf8") as f:
     merge_line = ""
     for line in f:
         line = line.strip()
         merge_line += line
+        print(len(merge_line))
         if len(merge_line) > 500:
             dic[merge_line] = 1
             merge_line = ""
