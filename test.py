@@ -1,6 +1,3 @@
-import gradio as gr
+print('hello world')
 
-def greet(name):
-    return f"Hello, {name}"
-demo = gr.Interface(fn=greet, inputs='text', outputs='text')
-demo.launch()
+print('codespace is awesome')

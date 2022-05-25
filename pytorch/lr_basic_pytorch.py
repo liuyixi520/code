@@ -4,7 +4,7 @@ import torch.nn as nn
 import numpy as np
 from torch.utils.data import TensorDataset
 from torch.utils.data import DataLoader
-
+  
 # Input (temp, rainfall, humidity)
 inputs = np.array([[73, 67, 43],
                    [91, 88, 64],
